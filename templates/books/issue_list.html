@@ -1,0 +1,11 @@
+{% extends "books/base.html" %}
+{% block title %}Issue / Return | Library{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"><h1 class="h2 mb-0">Issue / Return Books</h1><a class="btn btn-primary" href="{% url 'issue_create' %}">+ Issue Book</a></div>
+<form class="row g-2 mb-3" method="get"><div class="col-sm-9"><input class="form-control" name="q" value="{{ query }}" placeholder="Search book, student or student ID"></div><div class="col-sm-3 d-grid"><button class="btn btn-outline-primary">Search</button></div></form>
+<div class="card"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Book</th><th>Student</th><th>Issue date</th><th>Due date</th><th>Status / Fine</th><th>Action</th></tr></thead><tbody>
+{% for issue in issues %}<tr><td>{{ issue.book.title }}</td><td>{{ issue.student.name }}<div class="small text-muted">{{ issue.student.student_id }}</div></td><td>{{ issue.issue_date }}</td><td>{{ issue.due_date }}</td><td>{% if issue.returned %}<span class="badge text-bg-success">Returned</span>{% elif issue.due_date < today %}<span class="badge text-bg-danger">Overdue</span>{% else %}<span class="badge text-bg-warning">Issued</span>{% endif %}<div class="small">Fine: ₹{{ issue.fine }}</div></td><td>{% if not issue.returned %}<form method="post" action="{% url 'issue_return' issue.pk %}">{% csrf_token %}<button class="btn btn-sm btn-success" type="submit">Return</button></form>{% else %}<span class="text-muted small">{{ issue.return_date }}</span>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="6" class="text-center text-muted py-4">No issue records found.</td></tr>{% endfor %}
+</tbody></table></div></div>
+<p class="text-muted small mt-2">Late fine is calculated at ₹5 per overdue day. It is displayed for tracking and is not an online payment.</p>
+{% endblock %}

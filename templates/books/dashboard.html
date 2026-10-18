@@ -1,0 +1,274 @@
+
+{% extends "books/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard | Library{% endblock %}
+
+{% block content %}
+
+<style>
+.library-hero {
+    min-height: 300px;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
+        url("{% static 'images/library.png' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.library-overlay {
+    color: white;
+    padding: 40px 20px;
+}
+
+.library-overlay h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+}
+
+.library-overlay p {
+    font-size: 18px;
+    margin: 15px 0 24px;
+}
+</style>
+
+<!-- Library Photo -->
+<div class="library-hero mb-4">
+    <div class="library-overlay">
+        <h1>Welcome to Our Library</h1>
+        <p>Discover Books, Learn More, Grow Every Day.</p>
+        <a class="btn btn-light btn-lg" href="{% url 'book_list' %}">
+            Browse Books
+        </a>
+    </div>
+</div>
+
+<!-- About Our Library -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h2 class="h3 fw-bold mb-3">About Our Library</h2>
+
+        <p class="text-muted">
+            Our Library Management System provides an easy and organized
+            way to manage books, students, teachers, and book borrowing.
+            It helps users find books, track issued books, monitor due dates,
+            and maintain library records efficiently.
+        </p>
+
+        <p class="text-muted mb-0">
+            Our goal is to encourage reading, support learning, and make
+            library management simple, fast, and convenient.
+        </p>
+    </div>
+</div>
+
+<!-- Library Features -->
+<div class="mb-4">
+    <h2 class="h3 fw-bold mb-3">Our Library Features</h2>
+
+    <div class="row g-3">
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fs-2 mb-2">📚</div>
+                    <h3 class="h5 fw-bold">Book Management</h3>
+                    <p class="text-muted mb-0">
+                        Add, update, search, and manage book records easily.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fs-2 mb-2">🎓</div>
+                    <h3 class="h5 fw-bold">Student Records</h3>
+                    <p class="text-muted mb-0">
+                        Maintain student details and roll numbers in one place.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fs-2 mb-2">📖</div>
+                    <h3 class="h5 fw-bold">Book Issue & Return</h3>
+                    <p class="text-muted mb-0">
+                        Record book issues, returns, and due dates.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fs-2 mb-2">⏰</div>
+                    <h3 class="h5 fw-bold">Overdue Tracking</h3>
+                    <p class="text-muted mb-0">
+                        Check overdue books and track pending returns.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Why Choose Our Library -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h2 class="h3 fw-bold mb-3">Why Choose Our Library?</h2>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <h3 class="h6 fw-bold">✓ Easy to Use</h3>
+                <p class="text-muted">
+                    Simple dashboard to access important library information.
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <h3 class="h6 fw-bold">✓ Organized Records</h3>
+                <p class="text-muted">
+                    Keep book, student, and teacher records organized.
+                </p>
+            </div>
+
+            <div class="col-md-4">
+                <h3 class="h6 fw-bold">✓ Faster Management</h3>
+                <p class="text-muted mb-0">
+                    Manage library activities with less manual work.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Dashboard Heading -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h1 class="h2 mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">Library overview and recent activity.</p>
+    </div>
+
+    <a class="btn btn-primary" href="{% url 'issue_create' %}">
+        + Issue a Book
+    </a>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-3 mb-4">
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="text-muted">Book titles</div>
+                <div class="display-6 fw-semibold">{{ book_count }}</div>
+                <a href="{% url 'book_list' %}">Manage books →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="text-muted">Students</div>
+                <div class="display-6 fw-semibold">{{ student_count }}</div>
+                <a href="{% url 'student_list' %}">Manage students →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="text-muted">Books on loan</div>
+                <div class="display-6 fw-semibold">{{ issued_count }}</div>
+                <a href="{% url 'issue_list' %}">View loans →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="text-muted">Overdue loans</div>
+                <div class="display-6 fw-semibold text-danger">{{ overdue_count }}</div>
+                <a href="{% url 'issue_list' %}">Check overdue →</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Recent Book Issues -->
+<div class="card">
+    <div class="card-header bg-white fw-semibold">
+        Recent book issues
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Borrower</th>
+                    <th>Due date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for issue in recent_issues %}
+                <tr>
+                    <td>{{ issue.book.title }}</td>
+
+                    <td>
+                        {% if issue.student %}
+                            {{ issue.student.name }}
+                        {% elif issue.teacher %}
+                            {{ issue.teacher.name }}
+                        {% else %}
+                            Unknown
+                        {% endif %}
+                    </td>
+
+                    <td>{{ issue.due_date }}</td>
+
+                    <td>
+                        {% if issue.returned %}
+                            <span class="badge text-bg-success">Returned</span>
+                        {% elif issue.due_date < today %}
+                            <span class="badge text-bg-danger">Overdue</span>
+                        {% else %}
+                            <span class="badge text-bg-warning">Issued</span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-4">
+                        No issue records yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

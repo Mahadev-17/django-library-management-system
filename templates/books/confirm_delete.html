@@ -1,0 +1,7 @@
+{% extends "books/base.html" %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-7"><div class="card border-danger"><div class="card-body p-4">
+<h1 class="h3">Delete {{ object_type }}?</h1><p>Are you sure you want to delete <strong>{{ object }}</strong>? This action cannot be undone.</p>
+<form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Yes, delete</button> <a class="btn btn-outline-secondary" href="{% if object_type == 'book' %}{% url 'book_list' %}{% else %}{% url 'student_list' %}{% endif %}">Cancel</a></form>
+</div></div></div></div>
+{% endblock %}
